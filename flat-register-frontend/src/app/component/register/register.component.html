@@ -1,0 +1,44 @@
+<div class="container col-md-6 my-4">
+	<h1 style="color:red" align="center">Create an Account</h1><br>
+	<form [formGroup]="registerForm" (ngSubmit)="registerOnClick()">
+		<div class="row g-3">
+
+			<div *ngIf="successMessage" class="alert alert-success alert-dismissible fade show" role="alert">
+				<strong>Your Registration is Successful. You can login now.</strong>
+				<button (click)="closeSuccessMessage()" type="button" class="btn-close" data-bs-dismiss="alert"
+					aria-label="Close"></button>
+			</div>
+
+			<div class="row-md-6">
+				<label for="username" class="form-label">Username</label>
+				<input type="text" class="form-control" placeholder="Username" id="username" name="username"
+				formControlName="username">
+			</div>
+
+			<div class="row-md-6">
+				<label for="password" class="form-label">Password</label>
+				<input type="password" class="form-control" placeholder="Password" id="password" name="password"
+				formControlName="password">
+			</div>
+			<div class="row-md-6">
+				<label for="cpass" class="form-label">Confirm Password</label>
+				<input type="password" class="form-control" placeholder="Confirm Password" id="cpass" name="cpass" formControlName="cpass">
+			</div>
+
+			<div class="col-12">
+				<div class="form-check">
+					<input class="form-check-input" type="checkbox" id="gridCheck">
+					<label class="form-check-label" for="gridCheck">
+						Remember Me
+					</label>
+				</div>
+			</div>
+
+			<div class="col-12">
+				<button type="submit" class="btn btn-primary">Continue</button>
+				<button type="reset" class="btn btn-primary float-end">Reset</button>
+			</div>
+
+		</div>
+	</form>
+</div>

@@ -1,0 +1,48 @@
+.column {
+  float: left;
+  width: 50%;
+  padding: 0 50px;
+}
+
+/* Remove extra left and right margins, due to padding in columns */
+.row {
+  margin: 0 -5px;
+}
+
+/* Clear floats after the columns */
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+.card {
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  max-width: 300px;
+  margin: auto;
+  text-align: center;
+  font-family: cascadia code;
+}
+
+.card p {
+  font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+  text-align: justify;
+}
+
+.price {
+  color: grey;
+  font-size: 12px;
+}
+
+.card button {
+  border: none;
+  outline: 0;
+  padding: 4px;
+  color: white;
+  text-align: center;
+  font-family: fira code;
+  cursor: pointer;
+  /* margin-top: 5px; */
+  width: 100%;
+  font-size: 18px;
+}

@@ -1,0 +1,32 @@
+<div class="container col-md-6 my-5">
+  <h1 class="mb-5 text-center" style="color:red">Register as Owner</h1>
+  <form [formGroup]="registerOwnerForm" (ngSubmit)="registerOwnerOnClick()" class="needs-validation" novalidate>
+    <div class="row g-3">
+      <div class="col-md-6 position-relative">
+        <label for="fname" class="form-label">First Name</label>
+        <input type="text" class="form-control" formControlName="fname" id="fname" placeholder="First name"
+        aria-label="First name" required>
+      </div>
+
+      <div class="col-md-6">
+        <label for="lname" class="form-label">Last Name</label>
+        <input type="text" class="form-control" formControlName="lname" id="lname" placeholder="Last name"
+        aria-label="Last name" required>
+      </div>
+
+      <div class="row-md-6">
+        <label for="email" class="form-label">Email</label>
+        <input type="email" class="form-control" placeholder="Email Address" id="email" name="email" formControlName="email">
+      </div>
+
+      <div class="row-md-6">
+        <label for="phone" class="form-label">Phone Number</label>
+        <input type="text" class="form-control" placeholder="Phone Number" id="phone" name="phone" formControlName="phone">
+      </div>
+
+      <div class="col-12">
+        <button type="submit" class="btn btn-primary">Register as Owner</button>
+      </div>
+    </div>
+  </form>
+</div>

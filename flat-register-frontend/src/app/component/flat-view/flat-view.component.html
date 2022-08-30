@@ -1,0 +1,21 @@
+<body>
+  <div class="container px-5 my-5">
+    <div class="card mb-3 px-5 py-5">
+      <img src="../../assets/images/flat{{flat.flatId}}.jpg" class="card-img-top" alt="...">
+      <div class="card-body">
+        <button id="register-btn" style="display: none;" onclick="congratulationForRegister();">Hidden</button>
+        <h2 class="card-title">Flat Number {{flat.flatId}} <span style="opacity: 45%;">@storey-{{flat.storeyNumber}}</span></h2>
+        <p class="card-text">Lorem ipsum dolor sit amet consect adipisicing elit. Culpa saodio...</p>
+        <br>
+        <div *ngIf="owner !== null">
+          <h5 style="font-family: fira code;">Owner: {{owner.ownerName}}</h5>
+          <h5 style="font-family: fira code;">Email: {{owner.ownerEmail}}</h5>
+          <h5 style="font-family: fira code;">Contact: {{owner.phoneNumber}}</h5>
+        </div>
+        <big *ngIf="flat.soldOut && owner !== null" style="font-family: cascadia code; opacity: 45%;"><b><i>SOLD OUT at ₹{{flat.price}}0 RS. by {{owner.ownerName | uppercase}}</i></b></big>
+        <button *ngIf="!flat.soldOut" class="btn btn-primary my-3" style="font-family: fira code;" (click)="registerFlatOnClick(flat.flatId)">Register Flat {{flat.flatId}} for ₹{{flat.price}} only</button>
+        <button class="btn btn-secondary float-end my-3" style="font-family: fira code;" routerLink="/home">Back</button>
+      </div>
+    </div>
+  </div>
+</body>
