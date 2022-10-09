@@ -1,42 +1,55 @@
 <div class="container col-md-6 my-4">
 	<h1 style="color:red" align="center">Create an Account</h1><br>
+	<div class="mb-3" style="font-family: fira code; opacity: 60%;">
+		Already an User? <a routerLink="/login" class="text-primary fw-bold text-decoration-none">Sign in here</a>
+	</div>
 	<form [formGroup]="registerForm" (ngSubmit)="registerOnClick()">
 		<div class="row g-3">
 
 			<div *ngIf="successMessage" class="alert alert-success alert-dismissible fade show" role="alert">
-				<strong>Your Registration is Successful. You can login now.</strong>
+				<strong>{{successMessage}}</strong>
 				<button (click)="closeSuccessMessage()" type="button" class="btn-close" data-bs-dismiss="alert"
+					aria-label="Close"></button>
+			</div>
+
+			<div *ngIf="errorMessage" class="alert alert-danger alert-dismissible fade show" role="alert">
+				<strong>{{errorMessage}}</strong>
+				<button (click)="closeErrorMessage()" type="button" class="btn-close" data-bs-dismiss="alert"
 					aria-label="Close"></button>
 			</div>
 
 			<div class="row-md-6">
 				<label for="username" class="form-label">Username</label>
 				<input type="text" class="form-control" placeholder="Username" id="username" name="username"
-				formControlName="username">
+				formControlName="username" onkeypress="return event.charCode !== 32">
+				<div class="form-text" *ngIf="username.errors?.['required'] && (username.dirty || username.touched)" style="color: red;">
+					Username cannot be empty
+				</div>
+				<div class="form-text" *ngIf="username.errors?.['minlength'] || username.errors?.['maxlength']" style="color: red;">
+					Username should have minimum 8 and maximum 50 characters
+				</div>
 			</div>
 
 			<div class="row-md-6">
 				<label for="password" class="form-label">Password</label>
 				<input type="password" class="form-control" placeholder="Password" id="password" name="password"
 				formControlName="password">
+				<div class="form-text" *ngIf="password.errors?.['required'] && (password.dirty || password.touched)" style="color: red;">
+					Password cannot be empty
+				</div>
+				<div class="form-text" *ngIf="password.errors?.['pattern']" style="color: red;">
+					Password should be 8 to 30 characters and must contain 1 uppercase, lowercase, number and special character
+				</div>
 			</div>
+
 			<div class="row-md-6">
 				<label for="cpass" class="form-label">Confirm Password</label>
 				<input type="password" class="form-control" placeholder="Confirm Password" id="cpass" name="cpass" formControlName="cpass">
 			</div>
 
 			<div class="col-12">
-				<div class="form-check">
-					<input class="form-check-input" type="checkbox" id="gridCheck">
-					<label class="form-check-label" for="gridCheck">
-						Remember Me
-					</label>
-				</div>
-			</div>
-
-			<div class="col-12">
-				<button type="submit" class="btn btn-primary">Continue</button>
-				<button type="reset" class="btn btn-primary float-end">Reset</button>
+				<button type="submit" [disabled]="registerForm.invalid" class="btn btn-primary">Continue</button>
+				<button class="btn btn-secondary float-end" routerLink="/home">home</button>
 			</div>
 
 		</div>

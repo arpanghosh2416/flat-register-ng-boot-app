@@ -1,0 +1,43 @@
+<div class="container my-5">
+  <br>
+  <h3 style="text-align: center;" class="mb-4">All Registered Owner</h3>
+  <hr>
+  <div class="card">
+    <div class="card-body">
+      <div class="panel panel-primary">
+        <div class="panel-heading">
+          <h2>Owner List</h2>
+        </div>
+        <div class="panel-body">
+          <table id="owner-list-table" class="table table-striped table-sm row-border hover" cellspacing="0" width="100%">
+            <thead>
+              <tr>
+                <th class="text-center"># Owner ID</th>
+                <th class="text-center">Owner</th>
+                <th class="text-center">Flat ID</th>
+                <th class="text-center">Contact Owner</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let owner of owners">
+                <td class="text-center">{{owner.ownerId}}</td>
+                <td class="text-center">{{owner.ownerName}}</td>
+                <td class="text-center">
+                  <span *ngIf="owner.flats.length === 0">No Flat Available</span>
+                  <span *ngFor="let flat of owner.flats">
+                    <span *ngIf="owner.flats.length === 1 && flat.flatId === 0 else elseBlock">No Flat Available</span>
+                    <ng-template #elseBlock>
+                      <span *ngIf="flat.flatId !== 0"><a style="text-decoration: none;" target="_blank" routerLink="/flat-view/{{flat.flatId}}">{{flat.flatId}} </a></span>
+                    </ng-template>
+                  </span>
+                </td>
+                <td class="text-center"><i class="fa-solid fa-phone"></i> {{owner.phoneNumber}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<app-footer></app-footer>

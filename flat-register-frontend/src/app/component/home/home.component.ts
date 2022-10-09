@@ -1,5 +1,5 @@
-import { Component, DoCheck, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { Component, DoCheck, OnInit } from '@angular/core';
 
 import { AuthService } from 'src/app/service/auth/auth.service';
 import { FlatService } from 'src/app/service/flat/flat.service';
@@ -20,6 +20,10 @@ export class HomeComponent implements OnInit, DoCheck {
   isOwner: boolean = false;
   isLoggedIn: boolean = false;
   isSuperuser: boolean = false;
+  serverError: boolean = false;
+  loadingServer: boolean = true;
+  errorMessage: string | null = null;
+  successMessage: string | null = null;
 
   constructor(
     private _router: Router,
@@ -38,6 +42,14 @@ export class HomeComponent implements OnInit, DoCheck {
     this.verifyUser();
   }
 
+  closeErrorMessage(): void {
+    this.errorMessage = null;
+  }
+
+  closeSuccessMessage(): void {
+    this.successMessage = null;
+  }
+
   verifyUser(): void {
     this.isOwner = this._authService.isOwner();
     this.isLoggedIn = this._authService.isLoggedIn();
@@ -51,9 +63,17 @@ export class HomeComponent implements OnInit, DoCheck {
         console.log('response', response);
         this.flats = response;
         this.flats.splice(0, 1);
+        this.serverError = false;
+        this.loadingServer = false;
       },
       error => {
         console.log('error', error);
+
+        this.serverError = true;
+        this.loadingServer = false;
+        this._tokenService.removeUser();
+        this._tokenService.removeOwner();
+        this._tokenService.removeToken();
       }
     );
   }
@@ -75,10 +95,22 @@ export class HomeComponent implements OnInit, DoCheck {
               response => {
                 console.log('response', response);
                 this.fetchAllFlats();
+                this.successMessage = `Congratulation ${owner.ownerName}, You have successfully registered flat number ${flatId}`;
                 document.getElementById('register-btn')?.click();
+                window.scroll(0, 0);
               },
               error => {
-                console.log('error', error);
+                console.log('rectifying-error', error);
+                this._ownerService.getOwnerByFlatId(flatId).subscribe(
+                  newOwner => {
+                    console.log('newOwner', newOwner);
+                    this.errorMessage = `Flat number ${flatId} is already registered by ${newOwner.ownerName}. Reload the page to reflect the updated information`;
+                    window.scroll(0, 0);
+                  },
+                  error => {
+                    console.log('error', error);
+                  }
+                );
               }
             );
           },
@@ -94,8 +126,13 @@ export class HomeComponent implements OnInit, DoCheck {
   }
 
   registerFlatOnClick(flatId: number): void {
+    this.errorMessage = null;
+    this.successMessage = null;
+
     if (this.isOwner) {
-      let response = confirm("Do you want to buy this flat? (Please confirm)");
+      const targetFlat = this.flats.find((element: any) => element.flatId === flatId)
+      let msg = `Are you ready to pay ₹${targetFlat.price}0 for flat number ${targetFlat.flatId}? (Press OK to confirm)`;
+      let response = confirm(msg);
 
       if (response) {
         console.log('Admin, user want to buy');

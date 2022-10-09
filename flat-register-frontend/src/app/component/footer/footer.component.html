@@ -1,0 +1,87 @@
+<footer>
+  <div class="main-content">
+    <div class="left box">
+      <h2>About us</h2>
+      <div class="content">
+        <p>
+          This Flat Registration System is done by Arpan Ghosh for Google DSC Project.The Backend is done with Spring Boot and front end is with Angular
+          <!-- This Flat Registration System is done by Arpan Ghosh for Google DSC Project. The Backend is done with Spring Boot and front end is with Angular. -->
+        </p>
+        <div class="social">
+          <a href="" target="_blank"><span class="fab fa-facebook-f logo-facebook"></span></a>
+          <a href="" target="_blank"><span class="fab fa-twitter logo-twitter"></span></a>
+          <a href="" target="_blank"><span class="fab fa-instagram logo-instagram"></span></a>
+          <a href="" target="_blank"><span class="fab fa-youtube logo-youtube"></span></a>
+          <a href="https://github.com/arpanghosh2416/flat-register-ng-boot-app"
+          target="_blank"><span class="fab fa-github logo-github"></span></a>
+        </div>
+      </div>
+    </div>
+
+    <div class="center box">
+      <h2>Address</h2>
+      <div class="content">
+        <div class="place">
+          <span class="fas fa-map-marker-alt logo-location"></span>
+          <span class="text">DumDum, Nagerbazzar</span>
+        </div>
+        <div class="phone">
+          <span class="fas fa-phone-alt logo-phone"></span>
+          <span class="text">+91-7003378772</span>
+        </div>
+        <div class="email">
+          <span class="fas fa-envelope logo-gmail"></span>
+          <span class="text">arpanghosh2416@gmail.com</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="right box">
+      <h2>Give us feedback</h2>
+      <div class="content">
+        <div *ngIf="errorMessage" class="alert alert-dismissible fade show" role="alert" style="background-color: rgb(211, 52, 4);">
+          <strong>{{errorMessage}}</strong>
+          <button (click)="closeErrorMessage()" type="button" class="btn-close" data-bs-dismiss="alert"
+            aria-label="Close"></button>
+        </div>
+        <div *ngIf="successMessage" class="alert alert-dismissible fade show" role="alert" style="background-color: rgb(3, 131, 3);">
+          <strong>{{successMessage}}</strong>
+          <button (click)="closeSuccessMessage()" type="button" class="btn-close" data-bs-dismiss="alert"
+            aria-label="Close"></button>
+        </div>
+        <form [formGroup]="feedbackForm" (ngSubmit)="sendFeedbackOnClick()">
+          <div class="email">
+            <div class="text">Email <b>*</b></div>
+            <input type="email" id="email" name="email" formControlName="email" required onkeypress="return event.charCode !== 32">
+            <div class="form-text" *ngIf="email.errors?.['required'] && (email.dirty || email.touched)" style="color: red;">
+              Email cannot be empty
+            </div>
+            <div class="form-text" *ngIf="email.errors?.['email']" style="color: red;">
+              Email is not valid
+            </div>
+          </div>
+          <div class="msg">
+            <div class="text">Message <b>*</b></div>
+            <textarea rows="2" cols="25" required formControlName="message"></textarea>
+            <div class="form-text" *ngIf="message.errors?.['required'] && (message.dirty || message.touched)" style="color: red;">
+              Message cannot be empty
+            </div>
+          </div>
+          <div class="my_btn">
+            <button [disabled]="feedbackForm.invalid" type="submit" style="border-radius: 15px;">Send</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <div class="bottom">
+    <center>
+      <span class="credit">
+        Created By <a href="https://github.com/arpanghosh2416" target="_blank"
+          style="text-decoration: none; color: aqua;">arpanghosh2416@github</a> |
+      </span>
+      <span class="far fa-copyright"></span><span> Arpan Ghosh and Supratim Majumder 2022 All rights reserved.</span>
+    </center>
+  </div>
+</footer>

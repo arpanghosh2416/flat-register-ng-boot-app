@@ -19,7 +19,7 @@ public class TestController {
 				+ "    crossorigin=\"anonymous\"></script>\r\n" + "\r\n"
 				+ "  <title>Spring Boot CRUD Application</title>\r\n" + "</head>\r\n" + "\r\n" + "<body>\r\n"
 				+ "  <div class=\"container my-5\">\r\n"
-				+ "    <h1>Flat-Registration Spring Boot Application (Hosted by Arpan Ghosh)</h1>\r\n"
+				+ "    <h1>Flat-Registration Spring Boot Application (Hosted by Supratim Majumder)</h1>\r\n"
 				+ "    <hr class=\"text-danger\">\r\n"
 				+ "    <big style=\"font-size: 20px; font-family: cascadia code;\">Test All REST-APIs in Postman <span class=\"text-primary\">(Backend Server is Running...)</span></big>\r\n"
 				+ "  </div>\r\n" + "</body>\r\n" + "\r\n" + "</html>";

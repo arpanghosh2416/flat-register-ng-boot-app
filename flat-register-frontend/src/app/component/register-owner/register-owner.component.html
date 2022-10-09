@@ -1,31 +1,63 @@
 <div class="container col-md-6 my-5">
   <h1 class="mb-5 text-center" style="color:red">Register as Owner</h1>
   <form [formGroup]="registerOwnerForm" (ngSubmit)="registerOwnerOnClick()" class="needs-validation" novalidate>
+    <div *ngIf="errorMessage" class="alert alert-danger alert-dismissible fade show" role="alert">
+      <strong>{{errorMessage}}</strong>
+      <button (click)="closeErrorMessage()" type="button" class="btn-close" data-bs-dismiss="alert"
+        aria-label="Close"></button>
+    </div>
     <div class="row g-3">
       <div class="col-md-6 position-relative">
-        <label for="fname" class="form-label">First Name</label>
+        <label for="fname" class="form-label">First Name <span class="text-danger">*</span></label>
         <input type="text" class="form-control" formControlName="fname" id="fname" placeholder="First name"
-        aria-label="First name" required>
+        aria-label="First name" required onkeypress="return event.charCode !== 32">
+        <div class="form-text" *ngIf="fname.errors?.['required'] && (fname.dirty || fname.touched)" style="color: red;">
+					First name cannot be empty
+				</div>
+        <div class="form-text" *ngIf="fname.errors?.['minlength']" style="color: red;">
+					First name should have minimum 3 characters
+				</div>
       </div>
 
       <div class="col-md-6">
-        <label for="lname" class="form-label">Last Name</label>
+        <label for="lname" class="form-label">Last Name <span class="text-danger">* <sup>(<small>you can attach middile name also)</small></sup></span></label>
         <input type="text" class="form-control" formControlName="lname" id="lname" placeholder="Last name"
         aria-label="Last name" required>
+        <div class="form-text" *ngIf="lname.errors?.['required'] && (lname.dirty || lname.touched)" style="color: red;">
+					Last name cannot be empty
+				</div>
+        <div class="form-text" *ngIf="lname.errors?.['minlength']" style="color: red;">
+					Last name should have minimum 2 characters
+				</div>
       </div>
 
       <div class="row-md-6">
-        <label for="email" class="form-label">Email</label>
-        <input type="email" class="form-control" placeholder="Email Address" id="email" name="email" formControlName="email">
+        <label for="email" class="form-label">Email Address <span class="text-danger">*</span></label>
+        <input type="email" class="form-control" placeholder="Email" id="email" name="email" formControlName="email"
+        onkeypress="return event.charCode !== 32">
+        <div class="form-text" *ngIf="email.errors?.['required'] && (email.dirty || email.touched)" style="color: red;">
+					Email address cannot be empty
+				</div>
+        <div class="form-text" *ngIf="email.errors?.['email']" style="color: red;">
+					Email address is not valid
+				</div>
       </div>
 
       <div class="row-md-6">
-        <label for="phone" class="form-label">Phone Number</label>
-        <input type="text" class="form-control" placeholder="Phone Number" id="phone" name="phone" formControlName="phone">
+        <label for="phone" class="form-label">Phone Number <span class="text-danger">*</span></label>
+        <input type="text" class="form-control" placeholder="Contact number" id="phone" name="phone" formControlName="phone"
+        onkeypress="return event.charCode !== 32">
+        <div class="form-text" *ngIf="phone.errors?.['required'] && (phone.dirty || phone.touched)" style="color: red;">
+					Phone number cannot be empty
+				</div>
+        <div class="form-text" *ngIf="phone.errors?.['pattern']" style="color: red;">
+					Phone number must have (only) 10 digits
+				</div>
       </div>
 
       <div class="col-12">
-        <button type="submit" class="btn btn-primary">Register as Owner</button>
+        <button class="btn btn-primary" [disabled]="registerOwnerForm.invalid">Register as Owner</button>
+        <button type="reset" class="btn btn-secondary float-end" routerLink="/home">Home</button>
       </div>
     </div>
   </form>

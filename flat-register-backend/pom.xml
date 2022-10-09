@@ -9,10 +9,10 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.flat</groupId>
-	<artifactId>FlatRegistration</artifactId>
+	<artifactId>flat-register-backend</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>FlatRegistration</name>
-	<description>Google DSC Project</description>
+	<name>flat-register-backend</name>
+	<description>It is a simple full-stack web application on flat register</description>
 	<properties>
 		<java.version>1.8</java.version>
 	</properties>

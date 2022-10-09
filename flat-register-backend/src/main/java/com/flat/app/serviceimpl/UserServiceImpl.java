@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.flat.app.entity.User;
 import com.flat.app.exception.NoUsersFoundException;
+import com.flat.app.exception.UserExistsException;
 import com.flat.app.exception.UserNotFoundException;
 import com.flat.app.repository.UserRepository;
 import com.flat.app.service.UserService;
@@ -28,7 +29,10 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public User registerUser(User user) {
+	public User registerUser(User user) throws UserExistsException {
+		if (userRepository.findById(user.getUsername()).orElse(null) != null)
+			throw new UserExistsException("Username " + user.getUsername() + " is already registered");
+
 		user.setUserRole("ROLE_" + user.getUserRole());
 		User _user = userRepository.save(user);
 		return _user;

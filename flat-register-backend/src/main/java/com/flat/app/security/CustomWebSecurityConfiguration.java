@@ -30,6 +30,7 @@ public class CustomWebSecurityConfiguration extends WebSecurityConfigurerAdapter
 
 	private static final String H2 = "/h2db/**";
 	private static final String AUTH = "/api/user/auth/**";
+	private static final String FEEDBACK = "/api/feedback/**";
 	private static final String REGISTER = "/api/user/register";
 	private static final String FLAT_LIST = "/api/flat/get-all-flats";
 	// ################## Permit All ##################
@@ -60,8 +61,8 @@ public class CustomWebSecurityConfiguration extends WebSecurityConfigurerAdapter
 			.authorizeRequests()
 			.antMatchers(HttpHeaders.ALLOW).permitAll()
 			.antMatchers(USER_LIST).hasRole("ADMIN")
-			.antMatchers(H2, AUTH, REGISTER, FLAT_LIST).permitAll()
 			.antMatchers("/", FLAT_ROOT, USER_ROOT, OWNER_ROOT).permitAll()
+			.antMatchers(H2, AUTH, FEEDBACK, REGISTER, FLAT_LIST).permitAll()
 			.anyRequest().authenticated();
 		http.exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint);
 		http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);

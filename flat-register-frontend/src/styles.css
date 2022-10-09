@@ -1,1 +1,9 @@
 /* You can add global styles to this file, and also import other style files */
+
+#preloader {
+  background: #fff url('assets/gifs/load.gif') no-repeat center;
+  height: 100vh;
+  width: 100%;
+  position: fixed;
+  z-index: 99999;
+}

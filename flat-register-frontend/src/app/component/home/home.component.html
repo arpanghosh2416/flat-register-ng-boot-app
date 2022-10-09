@@ -1,3 +1,11 @@
+<div *ngIf="successMessage" class="alert alert-success alert-dismissible fade show mb-0" role="alert">
+  <strong>{{successMessage}}</strong>
+  <button type="button" (click)="closeSuccessMessage()" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+<div *ngIf="errorMessage" class="alert alert-danger alert-dismissible fade show mb-0" role="alert">
+  <strong>{{errorMessage}}</strong>
+  <button type="button" (click)="closeErrorMessage()" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
 <div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="carousel">
   <div class="carousel-indicators">
     <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
@@ -8,22 +16,22 @@
     <div class="carousel-item active">
       <img src="https://source.unsplash.com/1600x500/?nature, water" class="d-block w-100" alt="...">
       <div class="carousel-caption d-none d-md-block">
-        <h5>First slide label</h5>
-        <p>Some representative placeholder content for the first slide.</p>
+        <h5>Find Bliss in our Flat Structure</h5>
+        <p>Your family's happiness is your first priority.</p>
       </div>
     </div>
     <div class="carousel-item">
       <img src="https://source.unsplash.com/1600x500/?usa" class="d-block w-100" alt="...">
       <div class="carousel-caption d-none d-md-block">
-        <h5>Second slide label</h5>
-        <p>Some representative placeholder content for the second slide.</p>
+        <h5>Come and join with our community</h5>
+        <p>You will get peace in our community.</p>
       </div>
     </div>
     <div class="carousel-item">
       <img src="https://source.unsplash.com/1600x500/?dubai" class="d-block w-100" alt="...">
       <div class="carousel-caption d-none d-md-block">
-        <h5>Third slide label</h5>
-        <p>Some representative placeholder content for the third slide.</p>
+        <h5>Home Sweet Home</h5>
+        <p>There is no place like home and our flats provides you same experience.</p>
       </div>
     </div>
   </div>
@@ -37,34 +45,46 @@
   </button>
 </div>
 
-<h1 class="text-center text-danger my-3">Register Your Flat Today <button id="register-btn" style="display: none;" onclick="congratulationForRegister();">Hidden</button></h1>
+<div *ngIf="serverError then thenBlock else elseBlock"></div>
 
-<div class="container">
-  <div class="col" class="row row-cols-1 row-cols-md-3 g-4">
-    <div class="card my-3 py-2" *ngFor="let flat of flats">
-      <img src="../../assets/images/flat{{flat.flatId}}.jpg" class="card-img-top" alt="No Image Found" width="200" height="200">
-      <div class="card-body">
-        <h5 class="card-title">Flat - {{flat.flatId}}</h5>
-        <h6 class="card-title">Price(INR): ₹{{flat.price}}0</h6>
-        <p class="card-text">Lorem ipsum dolor sit amet consect adipisicing elit. Culpa saodio...</p>
+<ng-template #thenBlock>
+  <h1 class="text-center my-5 text-danger" style="opacity: 45%;">:"( Server Error 500)</h1>
+  <h1 class="text-center text-warning" style="opacity: 45%;">Probably server is offline (Reload once)</h1>
+  <h3 class="text-center my-5" style="opacity: 45%;">N.B. : Feel free to contact with owner or check <a href="https://registerflat.herokuapp.com/" style="text-decoration: none;" target="_blank">heroku-hosted-backend-server</a></h3>
+</ng-template>
 
-        <p *ngIf="flat.soldOut then elseBlockFlatSoldOut else elseBlockFlatNotSoldOut"></p>
+<ng-template #elseBlock>
+  <h1 class="text-center text-danger my-4">Register Your Flat Today <button id="register-btn" style="display: none;" onclick="congratulationForRegister();">Hidden</button></h1>
+  <h3 *ngIf="loadingServer" class="text-center mb-5" style="opacity: 45%;">Loading from herokuapp... [Reload-Several and Be-Forbearing 😅]</h3>
 
-        <ng-template #elseBlockFlatSoldOut>
-          <button *ngIf="isLoggedIn" class="btn btn-primary" routerLink="/flat-view/{{flat.flatId}}">View</button>
-          <button *ngIf="!isLoggedIn" class="btn btn-primary" routerLink="/login">View</button>
-          <span style="opacity: 45%; font-size: 20px;"><b *ngIf="1 else elseBlockFlatSoldOut"><i>FLAT SOLD OUT</i></b></span>
-        </ng-template>
+  <div class="container">
+    <div class="col" class="row row-cols-1 row-cols-md-3 g-4">
+      <div class="card my-3 py-2" *ngFor="let flat of flats">
+        <img src="../../assets/images/flat{{flat.flatId}}.jpg" class="card-img-top" alt="No Image Found" width="200" height="200">
+        <div class="card-body">
+          <h5 class="card-title">Flat - {{flat.flatId}}</h5>
+          <h6 class="card-title">Price(INR): ₹{{flat.price}}0</h6>
+          <p class="card-text">We provide good service and flats in your fingertips....</p>
 
-        <ng-template #elseBlockFlatNotSoldOut>
-          <button *ngIf="!isLoggedIn" class="btn btn-primary mb-2" routerLink="/login">View</button>
-          <button *ngIf="!isLoggedIn" class="btn btn-success" routerLink="/login">Buy / Register</button>
+          <p *ngIf="flat.soldOut then elseBlockFlatSoldOut else elseBlockFlatNotSoldOut"></p>
 
-          <button *ngIf="isLoggedIn" class="btn btn-primary mb-2" routerLink="/flat-view/{{flat.flatId}}">View</button>
-          <button *ngIf="isLoggedIn" class="btn btn-success" (click)="registerFlatOnClick(flat.flatId)">Buy / Register</button>
-        </ng-template>
+          <ng-template #elseBlockFlatSoldOut>
+            <button *ngIf="isLoggedIn" class="btn btn-primary" routerLink="/flat-view/{{flat.flatId}}">View</button>
+            <button *ngIf="!isLoggedIn" class="btn btn-primary" routerLink="/login">View</button>
+            <span style="opacity: 45%; font-size: 20px;"><b *ngIf="1 else elseBlockFlatSoldOut"><i>FLAT SOLD OUT</i></b></span>
+          </ng-template>
 
+          <ng-template #elseBlockFlatNotSoldOut>
+            <button *ngIf="!isLoggedIn" class="btn btn-primary mb-2" routerLink="/login">View</button>
+            <button *ngIf="!isLoggedIn" class="btn btn-success" routerLink="/login">Buy / Register</button>
+
+            <button *ngIf="isLoggedIn" class="btn btn-primary mb-2" routerLink="/flat-view/{{flat.flatId}}">View</button>
+            <button *ngIf="isLoggedIn" class="btn btn-success" (click)="registerFlatOnClick(flat.flatId)">Buy / Register</button>
+          </ng-template>
+
+        </div>
       </div>
     </div>
   </div>
-</div>
+</ng-template>
+<app-footer></app-footer>

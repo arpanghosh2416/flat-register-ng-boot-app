@@ -42,7 +42,7 @@ public class Owner {
 
 	@Column(name = "owner_name")
 	@NotNull(message = "Owner name cannot be null")
-	@Size(min = 3, max = 150, message = "Owner name should be minimum 3 and maximum 150 characters")
+	@Size(min = 5, max = 255, message = "Owner name should be minimum 5 and maximum 255 characters")
 	private String ownerName;
 
 	@Column(name = "owner_email")

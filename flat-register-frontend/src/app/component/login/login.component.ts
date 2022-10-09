@@ -19,6 +19,7 @@ export class LoginComponent implements OnInit {
 
   showMessage: boolean = false;
   showWrongMessage: boolean = false;
+  errorMessage: string | null = null;
   showSuccessMessage: boolean = false;
 
   constructor(
@@ -35,6 +36,10 @@ export class LoginComponent implements OnInit {
     this.showMessage = false;
   }
 
+  closeErrorMessage(): void {
+    this.errorMessage = null;
+  }
+
   closeWrongMessage(): void {
     this.showWrongMessage = false;
   }
@@ -46,19 +51,31 @@ export class LoginComponent implements OnInit {
   userLogin(): void {
     let request = this.loginform.value;
     console.log('login works:', request);
+
     this._authService.login(request).subscribe(
       response => {
         console.log('response', response);
+        this.errorMessage = null;
         this._tokenService.storeUser(response.user);
         this._tokenService.storeToken(response.jwt);
-        this.showWrongMessage = false;
         this._router.navigateByUrl('/home');
       },
       error => {
         console.log('error', error);
-        this.showWrongMessage = true;
+        if (error.error === 'Bad Credential')
+          this.errorMessage = `Wrong Username or Password`;
+        else
+          this.errorMessage = `Can't login ${this.loginform.value.username}, Something went wrong in our server`;
       }
     );
+  }
+
+  get username(): FormControl {
+    return this.loginform.get('username') as FormControl;
+  }
+
+  get password(): FormControl {
+    return this.loginform.get('password') as FormControl;
   }
 
 }

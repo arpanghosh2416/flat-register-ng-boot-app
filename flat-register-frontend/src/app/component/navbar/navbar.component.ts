@@ -2,6 +2,7 @@ import { Router } from '@angular/router';
 import { Component, DoCheck, OnInit } from '@angular/core';
 
 import { AuthService } from 'src/app/service/auth/auth.service';
+import { TokenService } from 'src/app/service/token/token.service';
 
 @Component({
   selector: 'app-navbar',
@@ -10,13 +11,21 @@ import { AuthService } from 'src/app/service/auth/auth.service';
 })
 export class NavbarComponent implements OnInit, DoCheck {
 
+  user: any = {
+    username: '',
+    password: '',
+    ownerStatus: '',
+    userRole: ''
+  };
+
   isOwner: boolean = false;
   isLoggedIn: boolean = false;
   isSuperuser: boolean = false;
 
   constructor(
     private _router: Router,
-    private _authService: AuthService
+    private _authService: AuthService,
+    private _tokenService: TokenService
   ) {
   }
 
@@ -28,6 +37,7 @@ export class NavbarComponent implements OnInit, DoCheck {
   }
 
   verifyUser(): void {
+    this.user = this._tokenService.fetchUser();
     this.isOwner = this._authService.isOwner();
     this.isLoggedIn = this._authService.isLoggedIn();
     this.isSuperuser = this._authService.isSuperuser();

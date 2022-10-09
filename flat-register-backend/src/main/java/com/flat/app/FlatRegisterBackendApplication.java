@@ -8,11 +8,12 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import com.flat.app.entity.Flat;
 import com.flat.app.entity.User;
+import com.flat.app.exception.UserExistsException;
 import com.flat.app.repository.FlatRepository;
 import com.flat.app.service.UserService;
 
 @SpringBootApplication
-public class FlatRegistrationApplication {
+public class FlatRegisterBackendApplication {
 
 	@Autowired
 	private UserService userService;
@@ -21,7 +22,7 @@ public class FlatRegistrationApplication {
 	private FlatRepository flatRepository;
 
 	public static void main(String[] args) {
-		SpringApplication.run(FlatRegistrationApplication.class, args);
+		SpringApplication.run(FlatRegisterBackendApplication.class, args);
 	}
 
 	private long getRandomNumber(long min, long max) {
@@ -29,7 +30,7 @@ public class FlatRegistrationApplication {
 	}
 
 	@PostConstruct
-	public void dummy() {
+	public void dummy() throws UserExistsException {
 		flatRepository.save(Flat.builder().storeyNumber(0L).build());
 
 		for (int i = 1; i <= 4; i++) {

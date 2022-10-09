@@ -16,6 +16,7 @@ export class FlatViewComponent implements OnInit, DoCheck {
   flat: any;
   owner: any = null;
   isOwner: boolean = false;
+  errorMessage: string | null = null;
 
   constructor(
     private _router: Router,
@@ -29,10 +30,15 @@ export class FlatViewComponent implements OnInit, DoCheck {
 
   ngOnInit(): void {
     this.fetchFlat();
+    window.scroll(0, 0);
   }
 
   ngDoCheck(): void {
     this.isOwner = this._authService.isOwner();
+  }
+
+  closeErrorMessage(): void {
+    this.errorMessage = null;
   }
 
   fetchFlat(): void {
@@ -80,7 +86,17 @@ export class FlatViewComponent implements OnInit, DoCheck {
                 document.getElementById('register-btn')?.click();
               },
               error => {
-                console.log('error', error);
+                console.log('rectifying-error', error);
+                this._ownerService.getOwnerByFlatId(flatId).subscribe(
+                  newOwner => {
+                    console.log('newOwner', newOwner);
+                    this.errorMessage = `Flat number ${flatId} is already registered by ${newOwner.ownerName}. Reload the page to reflect the updated information`;
+                    window.scroll(0, 0);
+                  },
+                  error => {
+                    console.log('error', error);
+                  }
+                );
               }
             );
           },
@@ -96,8 +112,11 @@ export class FlatViewComponent implements OnInit, DoCheck {
   }
 
   registerFlatOnClick(flatId: number): void {
+    this.errorMessage = null;
+
     if (this.isOwner) {
-      let response = confirm("Do you want to buy this flat? (Please confirm)");
+      let msg = `Are you ready to pay ₹${this.flat.price}0 for flat number ${this.flat.flatId}? (Press OK to confirm)`;
+      let response = confirm(msg);
 
       if (response) {
         console.log('Admin, user want to buy');

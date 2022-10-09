@@ -1,10 +1,10 @@
+import { Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 
+import { UserService } from 'src/app/service/user/user.service';
 import { OwnerService } from 'src/app/service/owner/owner.service';
 import { TokenService } from 'src/app/service/token/token.service';
-import { UserService } from 'src/app/service/user/user.service';
 
 @Component({
   selector: 'app-register-owner',
@@ -13,11 +13,13 @@ import { UserService } from 'src/app/service/user/user.service';
 })
 export class RegisterOwnerComponent implements OnInit {
 
+  errorMessage: string | null = null;
+
   registerOwnerForm: FormGroup = new FormGroup({
-    fname: new FormControl(''),
-    lname: new FormControl(''),
-    email: new FormControl(''),
-    phone: new FormControl('')
+    fname: new FormControl('', [Validators.required, Validators.minLength(3)]),
+    lname: new FormControl('', [Validators.required, Validators.minLength(2)]),
+    email: new FormControl('', [Validators.required, Validators.email]),
+    phone: new FormControl('', [Validators.required, Validators.pattern("^\\d{10}$")])
   });
 
   owner: any = {
@@ -44,6 +46,10 @@ export class RegisterOwnerComponent implements OnInit {
   }
 
   ngOnInit(): void {
+  }
+
+  closeErrorMessage(): void {
+    this.errorMessage = null;
   }
 
   prepareOwner(): any {
@@ -74,17 +80,40 @@ export class RegisterOwnerComponent implements OnInit {
   registerOwnerOnClick(): void {
     let request = this.prepareOwner();
     console.log('register owner works:', request);
+    console.log(this.fname.errors);
+    console.log(this.lname.errors);
+    console.log(this.email.errors);
+    console.log(this.phone.errors);
+
     this._ownerService.createOwner(request).subscribe(
       response => {
         console.log('response', response);
+        this.errorMessage = null;
         this.updateOwnerStatus(response.ownerId);
         // this._tokenService.storeOwner(response);
         this._router.navigateByUrl('/home');
       },
       error => {
         console.log('error', error);
+        this.errorMessage = error.error.message;
       }
     );
+  }
+
+  get fname(): FormControl {
+    return this.registerOwnerForm.get('fname') as FormControl;
+  }
+
+  get lname(): FormControl {
+    return this.registerOwnerForm.get('lname') as FormControl;
+  }
+
+  get email(): FormControl {
+    return this.registerOwnerForm.get('email') as FormControl;
+  }
+
+  get phone(): FormControl {
+    return this.registerOwnerForm.get('phone') as FormControl;
   }
 
 }

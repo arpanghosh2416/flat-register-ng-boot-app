@@ -11,22 +11,32 @@
       <button (click)="closeSuccessMessage()" type="button" class="btn-close" data-bs-dismiss="alert"
         aria-label="Close"></button>
     </div>
-    <div *ngIf="showWrongMessage" class="alert alert-danger alert-dismissible fade show" role="alert">
-      <strong>Invalid Username or Password</strong>
-      <button (click)="closeWrongMessage()" type="button" class="btn-close" data-bs-dismiss="alert"
+    <div *ngIf="errorMessage" class="alert alert-danger alert-dismissible fade show" role="alert">
+      <strong>{{errorMessage}}</strong>
+      <button (click)="closeErrorMessage()" type="button" class="btn-close" data-bs-dismiss="alert"
         aria-label="Close"></button>
+    </div>
+    <div class="mb-3" style="font-family: fira code; opacity: 60%;">
+      New Here? <a routerLink="/register" class="text-primary fw-bold text-decoration-none">Create an Account</a>
     </div>
     <form [formGroup]="loginform" (ngSubmit)="userLogin()">
       <div class="mb-3">
         <label for="username" class="form-label">Username</label>
-        <input type="text" class="form-control" id="username" name="username" formControlName="username">
+        <input type="text" class="form-control" id="username" name="username" formControlName="username"
+        onkeypress="return event.charCode !== 32" placeholder="Username">
+        <div class="form-text" *ngIf="username.errors?.['required'] && (username.dirty || username.touched)" style="color: red;">
+					Username cannot be empty
+				</div>
       </div>
       <div class="mb-3">
         <label for="password" class="form-label">Password</label>
-        <input type="password" class="form-control" id="password" name="password" formControlName="password">
+        <input type="password" class="form-control" id="password" name="password" formControlName="password" placeholder="Password">
+        <div class="form-text" *ngIf="password.errors?.['required'] && (password.dirty || password.touched)" style="color: red;">
+					Password cannot be empty
+				</div>
       </div>
-      <button type="submit" class="btn btn-primary">Login</button>
-      <button type="reset" class="btn btn-primary float-end">Reset</button>
+      <button type="submit" [disabled]="loginform.invalid" class="btn btn-primary">Login</button>
+      <button class="btn btn-secondary float-end" routerLink="/home">home</button>
     </form>
   </div>
 </div>

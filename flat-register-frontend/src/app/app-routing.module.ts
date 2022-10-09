@@ -1,14 +1,14 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-import { AboutComponent } from './component/about/about.component';
-import { ContactComponent } from './component/contact/contact.component';
 import { FlatViewComponent } from './component/flat-view/flat-view.component';
 import { HomeComponent } from './component/home/home.component';
 import { LoginComponent } from './component/login/login.component';
 import { NoPageComponent } from './component/no-page/no-page.component';
+import { OwnerListComponent } from './component/owner-list/owner-list.component';
 import { RegisterOwnerComponent } from './component/register-owner/register-owner.component';
 import { RegisterComponent } from './component/register/register.component';
+import { AdminGuard } from './guard/admin/admin.guard';
 import { AuthGuard } from './guard/auth/auth.guard';
 import { DeauthGuard } from './guard/deauth/deauth.guard';
 import { OwnerGuard } from './guard/owner/owner.guard';
@@ -28,27 +28,19 @@ const routes: Routes = [
     }
   },
   {
-    path:'about',
-    component:AboutComponent,
-    canActivate:[AuthGuard],
-    data: {
-      title: `About | ${applicationName}`
-    }
-  },
-  {
-    path:'contact',
-    component:ContactComponent,
-    canActivate:[AuthGuard],
-    data: {
-      title: `Contact | ${applicationName}`
-    }
-  },
-  {
     path:'flat-view/:flatId',
     component:FlatViewComponent,
     canActivate:[AuthGuard],
     data: {
       title: `View Flat | ${applicationName}`
+    }
+  },
+  {
+    path:'owner-list',
+    component:OwnerListComponent,
+    canActivate:[AuthGuard, AdminGuard],
+    data: {
+      title: `All Flat Owners | ${applicationName}`
     }
   },
   {

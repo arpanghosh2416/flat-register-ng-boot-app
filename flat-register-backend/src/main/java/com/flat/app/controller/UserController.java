@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.flat.app.entity.User;
 import com.flat.app.exception.NoUsersFoundException;
+import com.flat.app.exception.UserExistsException;
 import com.flat.app.exception.UserNotFoundException;
 import com.flat.app.service.UserService;
 
@@ -35,7 +36,7 @@ public class UserController {
 	}
 
 	@PostMapping("/register")
-	public ResponseEntity<?> registerUser(@RequestBody @Valid User user) {
+	public ResponseEntity<?> registerUser(@RequestBody @Valid User user) throws UserExistsException {
 		User _user = userService.registerUser(user);
 		return ResponseEntity.status(201).body(_user);
 	}

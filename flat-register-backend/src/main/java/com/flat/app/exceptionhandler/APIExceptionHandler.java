@@ -15,9 +15,24 @@ import com.flat.app.exception.FlatNotFoundException;
 import com.flat.app.exception.FlatRegisteredException;
 import com.flat.app.exception.NoFlatsFoundException;
 import com.flat.app.exception.NoUsersFoundException;
+import com.flat.app.exception.UserExistsException;
 
 @RestControllerAdvice
 public class APIExceptionHandler {
+
+	@ExceptionHandler(UserExistsException.class)
+	@ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR)
+	public Map<String, Object> handleUserExists(UserExistsException exception) {
+		Map<String, Object> errorMap = new LinkedHashMap<>();
+
+		errorMap.put("statusCode", 500);
+		errorMap.put("status", HttpStatus.INTERNAL_SERVER_ERROR);
+		errorMap.put("timeStamp", LocalDateTime.now());
+		errorMap.put("message", exception.getMessage());
+		errorMap.put("cause", "username");
+
+		return errorMap;
+	}
 
 	@ExceptionHandler(FlatNotFoundException.class)
 	@ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR)
@@ -95,7 +110,7 @@ public class APIExceptionHandler {
 		errorMap.put("statusCode", 500);
 		errorMap.put("status", HttpStatus.INTERNAL_SERVER_ERROR);
 		errorMap.put("timeStamp", LocalDateTime.now());
-		errorMap.put("message", "Some information of owner provided duplicate");
+		errorMap.put("message", "It looks an owner is already registered with this same email or phone number");
 
 		return errorMap;
 	}

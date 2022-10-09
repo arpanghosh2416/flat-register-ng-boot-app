@@ -10,13 +10,12 @@ import { FooterComponent } from './component/footer/footer.component';
 import { HomeComponent } from './component/home/home.component';
 import { NavbarComponent } from './component/navbar/navbar.component';
 import { NoPageComponent } from './component/no-page/no-page.component';
-import { ContactComponent } from './component/contact/contact.component';
-import { AboutComponent } from './component/about/about.component';
 import { RegisterComponent } from './component/register/register.component';
 import { LoginComponent } from './component/login/login.component';
 import { AuthInterceptor } from './interceptor/auth/auth.interceptor';
 import { RegisterOwnerComponent } from './component/register-owner/register-owner.component';
 import { FlatViewComponent } from './component/flat-view/flat-view.component';
+import { OwnerListComponent } from './component/owner-list/owner-list.component';
 
 @NgModule({
   declarations: [
@@ -27,10 +26,9 @@ import { FlatViewComponent } from './component/flat-view/flat-view.component';
     NavbarComponent,
     FooterComponent,
     NoPageComponent,
-    ContactComponent,
-    AboutComponent,
     RegisterOwnerComponent,
     FlatViewComponent,
+    OwnerListComponent,
   ],
   imports: [
     BrowserModule,
